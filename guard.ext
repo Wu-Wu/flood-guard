@@ -165,6 +165,7 @@ proc rearm () {
     $set_arm_mode( $ARM );
 }
 
+# проверка закрытия крана
 fun is_valve_closed () {
     return $get_output_state( VALVE_ID );
 }
