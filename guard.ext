@@ -115,7 +115,37 @@ proc main () {
     } else if ev == $EVT_POWER_RECOVERY {
         # восстановление сетевого питания
         mute_notify();
+    } else if ev == $EVT_BATTERY_LOW1 {
+        # акб разряжена до уровня 1
+        mute_notify();
+    } else if ev == $EVT_BATTERY_LOW2 {
+        # акб разряжена до уровня 2
+        # TODO: отключать реле для закрытия приводов кранов
+        mute_notify();
+    } else if ev == $EVT_BALANCE_LOW {
+        # баланс снизился до минимального значения
+        mute_notify();
+    } else if ev == $EVT_DEVICE_ON {
+        # контроллер включен
+        mute_notify();
+    } else if ev == $EVT_DEVICE_RESTART {
+        # контроллер перезапущен
+        mute_notify();
+    } else if ev == $EVT_FIRMWARE_UPGRADE {
+        # прошивка контроллера обновлена
+        mute_notify();
+    } else if ev == $EVT_RELAY_CONN_FAILED {
+        # контроллер не смог подключиться к серверу-ретрянслятору
+        mute_notify();
+    } else if ev == $EVT_GPRS_CONN_FAILED {
+        # контроллер не смог установить соединение GPRS
+        mute_notify();
     }
+    # XXX: системные события ниже не формируются и исключены из обработки
+    #   $EVT_TEMP_LOW
+    #   $EVT_TEMP_NORMAL
+    #   $EVT_TEMP_HIGH
+    #   $EVT_CASE_OPEN
 }
 
 # технического обслуживание приводов кранов (открытие/закрытие)
@@ -266,7 +296,6 @@ proc reset_grace () {
 }
 
 # отмена уведомлений в период тишины
-# TODO: добавить нужные события в обработку
 proc mute_notify () {
     # текущее время
     var ts = $get_time();
