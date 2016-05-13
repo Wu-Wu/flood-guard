@@ -196,8 +196,8 @@ proc sensor_wet (code) {
     # выдаём сигнал на лампу тревоги
     control_alm_led( code );
 
-    # отключаем таймер отсрочки (если был)
-    $reset_timer( 4 );
+    # сброс режима отсрочки
+    reset_grace();
 
     # сброс режима обслуживания
     reset_maintenance();
@@ -247,4 +247,10 @@ proc reset_maintenance () {
 
     # сбрасываем флаг
     _under_mnt = 0;
+}
+
+# отмена острочки
+proc reset_grace () {
+    # отключаем таймер отсрочки
+    $reset_timer( 4 );
 }
