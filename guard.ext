@@ -1,0 +1,244 @@
+# идентификаторы датчиков протечки воды
+const SID_KITCHEN       = 1;            # кухня
+const SID_TOILET        = 2;            # туалет
+const SID_BATHROOM      = 3;            # ванная
+
+# режим технического обслуживания приводов кранов
+const MNT_HOUR          = 15;
+const MNT_MINUTE        = 0;
+const MNT_DOW           = 5;            # "пятница"
+const MNT_LED_ID        = 6;            # "выход 4"
+const MNT_LED_EXITING   = $SCENARIO9;   # выход из обслуживания (морзе "X": -**-)
+const MNT_LED_WRONG     = $SCENARIO8;   # не тот день недели    (морзе "D": -**)
+const MNT_LED_SKIPPING  = $SCENARIO7;   # пропуск обслуживания  (морзе "S": ***)
+const MNT_LED_WORKING   = $SCENARIO6;   # обслуживание работает (морзе "W": *--)
+const MNT_LED_OFF       = $OFF;         # выключение
+
+const VALVE_ID          = 1;            # привод крана "выход 1"
+
+const ALM_LED_ID        = 7;            # "выход 5"
+const ALM_LED_KITCHEN   = $SCENARIO11;  # гр. датчиков кухни   (морзе "1": *----)
+const ALM_LED_TOILET    = $SCENARIO12;  # гр. датчиков туалета (морзе "2": **---)
+const ALM_LED_BATHROOM  = $SCENARIO13;  # гр. датчиков ванной  (морзе "3": ***--)
+const ALM_LED_OFF       = $OFF;         # выключение
+
+const PERIOD_15         = 150;          # период 15 сек
+const PERIOD_30         = 300;          # период 30 сек
+const PERIOD_45         = 450;          # период 45 сек
+const PERIOD_60         = 600;          # период 60 сек
+const PERIOD_90         = 900;          # период 90 сек
+
+var _under_mnt          = 0;            # флаг, что идёт режим техосблуживания
+
+proc main () {
+    # событие
+    var ev = $get_event_id();
+
+    if ev == $EVT_INIT {
+        # обработка инициализации
+        $set_event_mask( $EM_INPUT | $EM_SYSTEM );
+
+        # установка будильника техобслуживания
+        $set_alarm( 1, MNT_HOUR, MNT_MINUTE );
+    } else if ev == $EVT_ALARM1 {
+        # обработка события будильника
+        valve_maintenance();
+    } else if ev == $EVT_TIMER1 {
+        # отключаем таймер
+        $reset_timer( 1 );
+
+        # выключаем лампу техобслуживания
+        control_mnt_led( MNT_LED_OFF );
+    } else if ev == $EVT_TIMER2 {
+        # отключаем таймер
+        $reset_timer( 2 );
+
+        # открытие привода крана
+        toggle_valve_state();
+
+        # запуск таймера для привода крана
+        $set_timer( 3, PERIOD_45 );
+    } else if ev == $EVT_TIMER3 {
+        # отключаем таймер
+        $reset_timer( 3 );
+
+        # перевод в режим охрана
+        $set_arm_mode( $ARM );
+
+        # выключаем лампу техобслуживания
+        control_mnt_led( MNT_LED_OFF );
+
+        # сообщаем, что техобслуживание завершено
+        _under_mnt = 0;
+    } else if ev == $EVT_INPUT1_ACTIVE {
+        # датчик в кухне промок
+        sensor_wet( ALM_LED_KITCHEN );
+    } else if ev == $EVT_INPUT1_PASSIVE {
+        # датчик в кухне высох - проверяем датчики в ванной/туалете
+        sensor_dry( SID_BATHROOM, ALM_LED_BATHROOM, SID_TOILET, ALM_LED_TOILET );
+    } else if ev == $EVT_INPUT2_ACTIVE {
+        # датчик в туалете промок
+        sensor_wet( ALM_LED_TOILET );
+    } else if ev == $EVT_INPUT2_PASSIVE {
+        # датчик в туалете высох - проверяем датчики в ванной/кухне
+        sensor_dry( SID_BATHROOM, ALM_LED_BATHROOM, SID_KITCHEN, ALM_LED_KITCHEN );
+    } else if ev == $EVT_INPUT3_ACTIVE {
+        # датчик в ванной промок
+        sensor_wet( ALM_LED_BATHROOM );
+    } else if ev == $EVT_INPUT3_PASSIVE {
+        # датчик в ванной высох - проверяем датчики в туалете/кухне
+        sensor_dry( SID_TOILET, ALM_LED_TOILET, SID_KITCHEN, ALM_LED_KITCHEN );
+    }
+}
+
+# технического обслуживание приводов кранов (открытие/закрытие)
+proc valve_maintenance () {
+    # текущее время
+    var ts = $get_time();
+
+    if ts < 0 {
+        # ничего не делаем, если не удалось получить время
+        return;
+    }
+
+    # проверяем время и день недели
+    if $get_day_of_week( ts ) == MNT_DOW {
+        # проверка состояния датчиков протечки и режима
+        if is_armed() && is_sensors_active() {
+            # течёт - пропускаем
+            # мигаем лампой MNT режим пропуска
+            control_mnt_led( MNT_LED_SKIPPING );
+
+            # устанавливаем таймер
+            $set_timer( 1, PERIOD_30 );
+        } else {
+            # сухо - обслуживание
+
+            # сообщаем, что идёт техобслуживание
+            _under_mnt = 1;
+
+            # мигаем лампой MNT режим обслуживания
+            control_mnt_led( MNT_LED_WORKING );
+
+            # перевод в режим наблюдения
+            $set_arm_mode( $DISARM );
+
+            # закрытие привода крана
+            toggle_valve_state();
+
+            # запуск таймера для привода крана
+            $set_timer( 2, PERIOD_45 );
+        }
+    } else {
+        # мигаем лампой MNT режим неверный день недели
+        control_mnt_led( MNT_LED_WRONG );
+
+        # устанавливаем таймер
+        $set_timer( 1, PERIOD_15 );
+    }
+}
+
+# имеется ли любой промокший датчик?
+fun is_sensors_active () {
+    return is_blocked_by( SID_KITCHEN ) || is_blocked_by( SID_TOILET ) || is_blocked_by( SID_BATHROOM );
+}
+
+fun is_armed () {
+    return $get_arm_mode() == $ARM;
+}
+
+# реинициализация режима охраны
+proc rearm () {
+    # перевод в режим наблюдения
+    $set_arm_mode( $DISARM );
+    # перевод в режим охраны
+    $set_arm_mode( $ARM );
+}
+
+fun is_valve_closed () {
+    return $get_output_state( VALVE_ID );
+}
+
+# проверка срабатывания входа
+fun is_blocked_by (sensor_id) {
+    return $get_input_state( sensor_id );
+}
+
+# управление индикатором техобслуживания
+proc control_mnt_led (mode) {
+    $set_output_state( MNT_LED_ID, mode );
+}
+
+# управление индикатором тревоги
+proc control_alm_led (mode) {
+    $set_output_state( ALM_LED_ID, mode );
+}
+
+# управление приводом крана
+proc toggle_valve_state () {
+    var state = $get_output_state( VALVE_ID );
+    $set_output_state( VALVE_ID, !state );
+}
+
+# датчик протечки промок
+proc sensor_wet (code) {
+    # выдаём сигнал на лампу тревоги
+    control_alm_led( code );
+
+    # сброс режима обслуживания
+    reset_maintenance();
+
+    # действуем в режиме охрана и кран не закрыт?
+    if is_armed() && !is_valve_closed() {
+        # закрываем кран
+        toggle_valve_state();
+    }
+}
+
+# датчик протечки высох
+proc sensor_dry (sensor_id1, code1, sensor_id2, code2) {
+    if is_blocked_by( sensor_id1 ) {
+        # датчики зоне1 промокшие
+        # выдаём сигнал на лампу тревоги
+        control_alm_led( code1 );
+    } else if is_blocked_by( sensor_id2 ) {
+        # датчики зоне2 промокшие
+        # выдаём сигнал на лампу тревоги
+        control_alm_led( code2 );
+    } else {
+        # везде сухо
+        # отключаем лампу тревоги
+        control_alm_led( ALM_LED_OFF );
+
+        # действуем в режиме охрана и кран закрыт?
+        if is_armed() && is_valve_closed() {
+            # открываем кран
+            toggle_valve_state();
+            # реинициализация режима охраны
+            rearm();
+        }
+    }
+}
+
+# отмена обслуживания
+proc reset_maintenance () {
+    if !_under_mnt {
+        return;
+    }
+
+    # сброс таймеров
+    $reset_timer( 2 );
+    $reset_timer( 3 );
+
+    # перевод в режим охраны
+    $set_arm_mode( $ARM );
+
+    # мигаем лампой MNT режим пропуска
+    control_mnt_led( MNT_LED_EXITING );
+
+    # устанавливаем таймер для выключения лампы
+    $set_timer( 1, PERIOD_30 );
+
+    # сбрасываем флаг
+    _under_mnt = 0;
+}
