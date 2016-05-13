@@ -9,8 +9,8 @@ const SID_TOILET        = 2;            # туалет
 const SID_BATHROOM      = 3;            # ванная
 
 # режим технического обслуживания приводов кранов
-const MNT_HOUR          = 15;
-const MNT_MINUTE        = 0;
+const MNT_HOUR          = 4;            # HH:mm [ 0, 1, 2, .., 23 ]
+const MNT_MINUTE        = 7;            # hh:MM [ 0, 1, 2, .., 59 ]
 const MNT_DOW           = 5;            # "пятница"
 const MNT_LED_ID        = 6;            # "выход 4"
 const MNT_LED_EXITING   = $SCENARIO9;   # выход из обслуживания (морзе "X": -**-)
