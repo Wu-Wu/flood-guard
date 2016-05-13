@@ -68,9 +68,6 @@ proc main () {
         # отключаем таймер
         $reset_timer( 3 );
 
-        # перевод в режим охрана
-        $set_arm_mode( $ARM );
-
         # выключаем лампу техобслуживания
         control_mnt_led( MNT_LED_OFF );
 
@@ -84,7 +81,7 @@ proc main () {
         control_alm_led( ALM_LED_OFF );
 
         # действуем в режиме охрана и кран закрыт?
-        if is_armed() && is_valve_closed() {
+        if is_valve_closed() {
             # открываем кран
             toggle_valve_state();
             # реинициализация режима охраны
@@ -124,7 +121,7 @@ proc valve_maintenance () {
     # проверяем время и день недели
     if $get_day_of_week( ts ) == MNT_DOW {
         # проверка состояния датчиков протечки и режима
-        if is_armed() && is_sensors_active() {
+        if is_sensors_active() {
             # течёт - пропускаем
             # мигаем лампой MNT режим пропуска
             control_mnt_led( MNT_LED_SKIPPING );
@@ -139,9 +136,6 @@ proc valve_maintenance () {
 
             # мигаем лампой MNT режим обслуживания
             control_mnt_led( MNT_LED_WORKING );
-
-            # перевод в режим наблюдения
-            $set_arm_mode( $DISARM );
 
             # закрытие привода крана
             toggle_valve_state();
@@ -161,10 +155,6 @@ proc valve_maintenance () {
 # имеется ли любой промокший датчик?
 fun is_sensors_active () {
     return is_blocked_by( SID_KITCHEN ) || is_blocked_by( SID_TOILET ) || is_blocked_by( SID_BATHROOM );
-}
-
-fun is_armed () {
-    return $get_arm_mode() == $ARM;
 }
 
 # реинициализация режима охраны
@@ -211,8 +201,8 @@ proc sensor_wet (code) {
     # сброс режима обслуживания
     reset_maintenance();
 
-    # действуем в режиме охрана и кран не закрыт?
-    if is_armed() && !is_valve_closed() {
+    # кран не закрыт?
+    if !is_valve_closed() {
         # закрываем кран
         toggle_valve_state();
     }
@@ -247,9 +237,6 @@ proc reset_maintenance () {
     # сброс таймеров
     $reset_timer( 2 );
     $reset_timer( 3 );
-
-    # перевод в режим охраны
-    $set_arm_mode( $ARM );
 
     # мигаем лампой MNT режим пропуска
     control_mnt_led( MNT_LED_EXITING );
