@@ -34,6 +34,10 @@ const PERIOD_45         = 450;          # период 45 сек
 const PERIOD_60         = 600;          # период 60 сек
 const PERIOD_90         = 900;          # период 90 сек
 
+# период тишины
+const MUTE_FROM         = 22;           # > 22:00
+const MUTE_TILL         = 9;            # < 09:00
+
 var _under_mnt          = 0;            # флаг, что идёт режим техосблуживания
 
 proc main () {
@@ -105,6 +109,12 @@ proc main () {
     } else if ev == $EVT_INPUT3_PASSIVE {
         # датчик в ванной высох - проверяем датчики в туалете/кухне
         sensor_dry( SID_TOILET, ALM_LED_TOILET, SID_KITCHEN, ALM_LED_KITCHEN );
+    } else if ev == $EVT_POWER_FAULT {
+        # падение сетевого питания
+        mute_notify();
+    } else if ev == $EVT_POWER_RECOVERY {
+        # восстановление сетевого питания
+        mute_notify();
     }
 }
 
@@ -253,4 +263,24 @@ proc reset_maintenance () {
 proc reset_grace () {
     # отключаем таймер отсрочки
     $reset_timer( 4 );
+}
+
+# отмена уведомлений в период тишины
+# TODO: добавить нужные события в обработку
+proc mute_notify () {
+    # текущее время
+    var ts = $get_time();
+
+    if ts < 0 {
+        # ничего не делаем, если не удалось получить время
+        return;
+    }
+
+    # текущий час
+    var hour = $get_hour( ts );
+
+    if hour >= MUTE_FROM || hour < MUTE_TILL {
+        # отменяем уведомление
+        $cancel_event();
+    }
 }
