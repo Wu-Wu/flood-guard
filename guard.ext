@@ -1,3 +1,8 @@
+#
+# Copyright (c) 2016 Anton Gerasimov <me@zyxmasta.com>
+# License: http://opensource.org/licenses/MIT
+#
+
 # идентификаторы датчиков протечки воды
 const SID_KITCHEN       = 1;            # кухня
 const SID_TOILET        = 2;            # туалет
