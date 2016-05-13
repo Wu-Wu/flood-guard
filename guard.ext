@@ -17,6 +17,7 @@ const MNT_LED_OFF       = $OFF;         # выключение
 const VALVE_ID          = 1;            # привод крана "выход 1"
 
 const ALM_LED_ID        = 7;            # "выход 5"
+const ALM_LED_GRACE     = $SCENARIO10;  # отсрочка открытия кранов (морзе "G": --*)
 const ALM_LED_KITCHEN   = $SCENARIO11;  # гр. датчиков кухни   (морзе "1": *----)
 const ALM_LED_TOILET    = $SCENARIO12;  # гр. датчиков туалета (морзе "2": **---)
 const ALM_LED_BATHROOM  = $SCENARIO13;  # гр. датчиков ванной  (морзе "3": ***--)
@@ -70,6 +71,20 @@ proc main () {
 
         # сообщаем, что техобслуживание завершено
         _under_mnt = 0;
+    } else if ev == $EVT_TIMER4 {
+        # отключаем таймер
+        $reset_timer( 4 );
+
+        # отключаем лампу тревоги
+        control_alm_led( ALM_LED_OFF );
+
+        # действуем в режиме охрана и кран закрыт?
+        if is_armed() && is_valve_closed() {
+            # открываем кран
+            toggle_valve_state();
+            # реинициализация режима охраны
+            rearm();
+        }
     } else if ev == $EVT_INPUT1_ACTIVE {
         # датчик в кухне промок
         sensor_wet( ALM_LED_KITCHEN );
@@ -185,6 +200,9 @@ proc sensor_wet (code) {
     # выдаём сигнал на лампу тревоги
     control_alm_led( code );
 
+    # отключаем таймер отсрочки (если был)
+    $reset_timer( 4 );
+
     # сброс режима обслуживания
     reset_maintenance();
 
@@ -207,16 +225,11 @@ proc sensor_dry (sensor_id1, code1, sensor_id2, code2) {
         control_alm_led( code2 );
     } else {
         # везде сухо
-        # отключаем лампу тревоги
-        control_alm_led( ALM_LED_OFF );
+        # включаем режим отсрочки
+        control_alm_led( ALM_LED_GRACE );
 
-        # действуем в режиме охрана и кран закрыт?
-        if is_armed() && is_valve_closed() {
-            # открываем кран
-            toggle_valve_state();
-            # реинициализация режима охраны
-            rearm();
-        }
+        # устанавливаем таймер на окрытие кранов
+        $set_timer( 4, PERIOD_30 );
     }
 }
 
