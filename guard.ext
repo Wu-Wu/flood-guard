@@ -3,7 +3,7 @@
 # License: http://opensource.org/licenses/MIT
 #
 
-# идентификаторы датчиков протечки воды
+# идентификаторы групп датчиков протечки воды
 const SID_KITCHEN       = 1;            # кухня
 const SID_TOILET        = 2;            # туалет
 const SID_BATHROOM      = 3;            # ванная
