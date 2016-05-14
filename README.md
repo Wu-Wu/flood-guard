@@ -1,6 +1,28 @@
 Описание системы
 ================
 
+## Введение
+
+TODO
+
+
+## Требования
+
+Для функционирования системы необходимо... TODO
+
+Полная спецификация использованного оборудования приведена в файле [SPECIFICATION.md](SPECIFICATION.md).
+
+
+## Возможности
+
+TODO
+
+
+## События
+
+TODO
+
+
 ## Сценарии логики
 
 ### Общие приципы
@@ -25,7 +47,7 @@
 
 Код Морзе буквы **W** (латиница)
 
-![dot](i/dot_red.png)![dash](i/dash_red.png)![dash](i/dash_red.png)
+![dot](i/dot_blue.png)![dash](i/dash_blue.png)![dash](i/dash_blue.png)
 
 ##### Столбцы тактов
 
@@ -47,7 +69,7 @@
 
 Код Морзе буквы **S** (латиница)
 
-![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)
+![dot](i/dot_blue.png)![dot](i/dot_blue.png)![dot](i/dot_blue.png)
 
 ##### Столбцы тактов
 
@@ -69,7 +91,7 @@
 
 Код Морзе буквы **D** (латиница)
 
-![dash](i/dash_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)
+![dash](i/dash_blue.png)![dot](i/dot_blue.png)![dot](i/dot_blue.png)
 
 ##### Столбцы тактов
 
@@ -91,7 +113,7 @@
 
 Код Морзе буквы **X** (латиница)
 
-![dash](i/dash_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dash](i/dash_red.png)
+![dash](i/dash_blue.png)![dot](i/dot_blue.png)![dot](i/dot_blue.png)![dash](i/dash_blue.png)
 
 ##### Столбцы тактов
 
@@ -195,3 +217,9 @@
 
 Сработал датчик протечки из группы датчиков ванной комнаты.
 
+
+## Лицензия
+
+MIT
+
+[http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
