@@ -7,8 +7,8 @@
 Контроллер CCU825-HP-AE-PD h/w 12.02, f/w 02.06+     | 1      | CCU825-H-AE-PD           | [CCU825 DIN](http://www.radsel.ru/products/ccu825-din.html)
 Аккумуляторная батарея CSB GP 1272                   | 1      | n/a                      |
 Шаровый электропривод Gidrolock Ultimate Bugatti 12V | 2      | [GIDROLOCK ULTIMATE](http://gidrolock.ru/uploads/pages/page4/Pasport_GIDROLOCK_ULTIMATE_.pdf) | Dy = 1/2"
-Проводной датчик протечки воды WSP                   | 2      | n/a                      | [датчики протечки](http://gidrolock.ru/production/datchiki-protechki-vody-gidrolock/)
-Проводной датчик протечки воды WSU                   | 2      | n/a                      | [датчики протечки](http://gidrolock.ru/production/datchiki-protechki-vody-gidrolock/)
+Проводной датчик протечки воды Gidrolock WSP         | 2      | n/a                      | [датчики протечки](http://gidrolock.ru/production/datchiki-protechki-vody-gidrolock/)
+Проводной датчик протечки воды Gidrolock WSU         | 2      | n/a                      | [датчики протечки](http://gidrolock.ru/production/datchiki-protechki-vody-gidrolock/)
 Выключатель ABB E211-16-20                           | 2     | [2CCA703005R0001](http://new.abb.com/products/2CCA703005R0001) |
 Выключатель ABB E213-16-001                          | 2     | [2CCA703040R0001](http://new.abb.com/products/2CCA703040R0001) |
 Реле промежуточное ABB CR-P012DC2                    | 1     | [1SVR405601R4000](http://new.abb.com/products/1SVR405601R4000) |
