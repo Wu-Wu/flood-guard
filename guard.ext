@@ -12,21 +12,23 @@ const SID_BATHROOM      = 3;            # ванная
 const MNT_HOUR          = 4;            # HH:mm [ 0, 1, 2, .., 23 ]
 const MNT_MINUTE        = 7;            # hh:MM [ 0, 1, 2, .., 59 ]
 const MNT_DOW           = 5;            # "пятница"
-const MNT_LED_ID        = 6;            # "выход 4"
-const MNT_LED_EXITING   = $SCENARIO9;   # выход из обслуживания (морзе "X": -**-)
-const MNT_LED_WRONG     = $SCENARIO8;   # не тот день недели    (морзе "D": -**)
-const MNT_LED_SKIPPING  = $SCENARIO7;   # пропуск обслуживания  (морзе "S": ***)
-const MNT_LED_WORKING   = $SCENARIO6;   # обслуживание работает (морзе "W": *--)
-const MNT_LED_OFF       = $OFF;         # выключение
+
+# идентификаторы индикаторов
+const MNT_LED_ID        = 6;            # "выход 4" (синий)
+const ALM_LED_ID        = 7;            # "выход 5" (красный)
 
 const VALVE_ID          = 1;            # привод крана "выход 1"
 
-const ALM_LED_ID        = 7;            # "выход 5"
-const ALM_LED_GRACE     = $SCENARIO10;  # отсрочка открытия кранов (морзе "G": --*)
-const ALM_LED_KITCHEN   = $SCENARIO11;  # гр. датчиков кухни   (морзе "1": *----)
-const ALM_LED_TOILET    = $SCENARIO12;  # гр. датчиков туалета (морзе "2": **---)
-const ALM_LED_BATHROOM  = $SCENARIO13;  # гр. датчиков ванной  (морзе "3": ***--)
-const ALM_LED_OFF       = $OFF;         # выключение
+# программы мигания индикаторами
+const FLASH_OFF         = $OFF;         # выключение
+const FLASH_WORKING     = $SCENARIO6;   # обслуживание работает     (морзе "W": *--)
+const FLASH_SKIPPING    = $SCENARIO7;   # пропуск обслуживания      (морзе "S": ***)
+const FLASH_WRONG       = $SCENARIO8;   # не тот день недели        (морзе "D": -**)
+const FLASH_EXITING     = $SCENARIO9;   # выход из обслуживания     (морзе "X": -**-)
+const FLASH_GRACE       = $SCENARIO10;  # отсрочка открытия кранов  (морзе "G": --*)
+const FLASH_KITCHEN     = $SCENARIO11;  # гр. датчиков кухни        (морзе "1": *----)
+const FLASH_TOILET      = $SCENARIO12;  # гр. датчиков туалета      (морзе "2": **---)
+const FLASH_BATHROOM    = $SCENARIO13;  # гр. датчиков ванной       (морзе "3": ***--)
 
 const PERIOD_15         = 150;          # период 15 сек
 const PERIOD_30         = 300;          # период 30 сек
@@ -60,7 +62,7 @@ proc main () {
         $reset_timer( 1 );
 
         # выключаем лампу техобслуживания
-        control_mnt_led( MNT_LED_OFF );
+        control_mnt_led( FLASH_OFF );
     } else if ev == $EVT_TIMER2 {
         # отключаем таймер
         $reset_timer( 2 );
@@ -75,7 +77,7 @@ proc main () {
         $reset_timer( 3 );
 
         # выключаем лампу техобслуживания
-        control_mnt_led( MNT_LED_OFF );
+        control_mnt_led( FLASH_OFF );
 
         # сообщаем, что техобслуживание завершено
         _under_mnt = 0;
@@ -84,7 +86,7 @@ proc main () {
         $reset_timer( 4 );
 
         # отключаем лампу тревоги
-        control_alm_led( ALM_LED_OFF );
+        control_alm_led( FLASH_OFF );
 
         # действуем в режиме охрана и кран закрыт?
         if is_valve_closed() {
@@ -95,22 +97,22 @@ proc main () {
         }
     } else if ev == $EVT_INPUT1_ACTIVE {
         # датчик в кухне промок
-        sensor_wet( ALM_LED_KITCHEN );
+        sensor_wet( FLASH_KITCHEN );
     } else if ev == $EVT_INPUT1_PASSIVE {
         # датчик в кухне высох - проверяем датчики в ванной/туалете
-        sensor_dry( SID_BATHROOM, ALM_LED_BATHROOM, SID_TOILET, ALM_LED_TOILET );
+        sensor_dry( SID_BATHROOM, FLASH_BATHROOM, SID_TOILET, FLASH_TOILET );
     } else if ev == $EVT_INPUT2_ACTIVE {
         # датчик в туалете промок
-        sensor_wet( ALM_LED_TOILET );
+        sensor_wet( FLASH_TOILET );
     } else if ev == $EVT_INPUT2_PASSIVE {
         # датчик в туалете высох - проверяем датчики в ванной/кухне
-        sensor_dry( SID_BATHROOM, ALM_LED_BATHROOM, SID_KITCHEN, ALM_LED_KITCHEN );
+        sensor_dry( SID_BATHROOM, FLASH_BATHROOM, SID_KITCHEN, FLASH_KITCHEN );
     } else if ev == $EVT_INPUT3_ACTIVE {
         # датчик в ванной промок
-        sensor_wet( ALM_LED_BATHROOM );
+        sensor_wet( FLASH_BATHROOM );
     } else if ev == $EVT_INPUT3_PASSIVE {
         # датчик в ванной высох - проверяем датчики в туалете/кухне
-        sensor_dry( SID_TOILET, ALM_LED_TOILET, SID_KITCHEN, ALM_LED_KITCHEN );
+        sensor_dry( SID_TOILET, FLASH_TOILET, SID_KITCHEN, FLASH_KITCHEN );
     } else if ev == $EVT_POWER_FAULT {
         # падение сетевого питания
         mute_notify();
@@ -166,7 +168,7 @@ proc valve_maintenance () {
         if is_sensors_active() {
             # течёт - пропускаем
             # мигаем лампой MNT режим пропуска
-            control_mnt_led( MNT_LED_SKIPPING );
+            control_mnt_led( FLASH_SKIPPING );
 
             # устанавливаем таймер
             $set_timer( 1, PERIOD_30 );
@@ -177,7 +179,7 @@ proc valve_maintenance () {
             _under_mnt = 1;
 
             # мигаем лампой MNT режим обслуживания
-            control_mnt_led( MNT_LED_WORKING );
+            control_mnt_led( FLASH_WORKING );
 
             # закрытие привода крана
             toggle_valve_state();
@@ -187,7 +189,7 @@ proc valve_maintenance () {
         }
     } else {
         # мигаем лампой MNT режим неверный день недели
-        control_mnt_led( MNT_LED_WRONG );
+        control_mnt_led( FLASH_WRONG );
 
         # устанавливаем таймер
         $set_timer( 1, PERIOD_15 );
@@ -264,7 +266,7 @@ proc sensor_dry (sensor_id1, code1, sensor_id2, code2) {
     } else {
         # везде сухо
         # включаем режим отсрочки
-        control_alm_led( ALM_LED_GRACE );
+        control_alm_led( FLASH_GRACE );
 
         # устанавливаем таймер на окрытие кранов
         $set_timer( 4, PERIOD_GRACE );
@@ -282,7 +284,7 @@ proc reset_maintenance () {
     $reset_timer( 3 );
 
     # мигаем лампой MNT режим пропуска
-    control_mnt_led( MNT_LED_EXITING );
+    control_mnt_led( FLASH_EXITING );
 
     # устанавливаем таймер для выключения лампы
     $set_timer( 1, PERIOD_30 );
