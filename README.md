@@ -45,7 +45,7 @@ TODO
 
 ### Сценарий \#6 (`$SCENARIO06`)
 
-Код Морзе буквы **W** (латиница)
+Код Морзе буквы **W** (латиница): **W**orking
 
 ![dot](i/dot_blue.png)![dash](i/dash_blue.png)![dash](i/dash_blue.png)
 
@@ -67,7 +67,7 @@ TODO
 
 ### Сценарий \#7 (`$SCENARIO07`)
 
-Код Морзе буквы **S** (латиница)
+Код Морзе буквы **S** (латиница): **S**kipping
 
 ![dot](i/dot_blue.png)![dot](i/dot_blue.png)![dot](i/dot_blue.png)
 
@@ -89,7 +89,7 @@ TODO
 
 ### Сценарий \#8 (`$SCENARIO08`)
 
-Код Морзе буквы **D** (латиница)
+Код Морзе буквы **D** (латиница): wrong **D**ay of week
 
 ![dash](i/dash_blue.png)![dot](i/dot_blue.png)![dot](i/dot_blue.png)
 
@@ -111,7 +111,7 @@ TODO
 
 ### Сценарий \#9 (`$SCENARIO09`)
 
-Код Морзе буквы **X** (латиница)
+Код Морзе буквы **X** (латиница): e**X**iting
 
 ![dash](i/dash_blue.png)![dot](i/dot_blue.png)![dot](i/dot_blue.png)![dash](i/dash_blue.png)
 
@@ -133,7 +133,7 @@ TODO
 
 ### Сценарий \#10 (`$SCENARIO10`)
 
-Код Морзе буквы **G** (латиница)
+Код Морзе буквы **G** (латиница): **G**race period
 
 ![dash](i/dash_red.png)![dash](i/dash_red.png)![dot](i/dot_red.png)
 
