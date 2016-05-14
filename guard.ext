@@ -34,6 +34,8 @@ const PERIOD_45         = 450;          # период 45 сек
 const PERIOD_60         = 600;          # период 60 сек
 const PERIOD_90         = 900;          # период 90 сек
 
+const PERIOD_GRACE      = PERIOD_30;    # отсрочка открытия кранов
+
 # период тишины
 const MUTE_FROM         = 22;           # > 22:00
 const MUTE_TILL         = 9;            # < 09:00
@@ -265,7 +267,7 @@ proc sensor_dry (sensor_id1, code1, sensor_id2, code2) {
         control_alm_led( ALM_LED_GRACE );
 
         # устанавливаем таймер на окрытие кранов
-        $set_timer( 4, PERIOD_30 );
+        $set_timer( 4, PERIOD_GRACE );
     }
 }
 
