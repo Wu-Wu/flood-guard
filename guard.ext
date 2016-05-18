@@ -17,7 +17,7 @@ const MNT_DOW           = 5;            # "пятница"
 const MNT_LED_ID        = 6;            # "выход 4" (синий)
 const ALM_LED_ID        = 7;            # "выход 5" (красный)
 
-const VALVE_ID          = 1;            # привод крана "выход 1"
+const VALVE_ID          = 1;            # приводы кранов "реле 1"
 
 # программы мигания индикаторами
 const FLASH_OFF         = $OFF;         # выключение
