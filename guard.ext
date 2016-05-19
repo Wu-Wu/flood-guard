@@ -92,8 +92,6 @@ proc main () {
         if is_valve_closed() {
             # открываем кран
             toggle_valve_state();
-            # реинициализация режима охраны
-            rearm();
         }
     } else if ev == $EVT_INPUT1_ACTIVE {
         # датчик в кухне промок
@@ -267,6 +265,9 @@ proc sensor_dry (sensor_id1, code1, sensor_id2, code2) {
         # везде сухо
         # включаем режим отсрочки
         control_alm_led( FLASH_GRACE );
+
+        # реинициализация режима охраны
+        rearm();
 
         # устанавливаем таймер на окрытие кранов
         $set_timer( 4, PERIOD_GRACE );
