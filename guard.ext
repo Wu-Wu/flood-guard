@@ -4,9 +4,9 @@
 #
 
 # режим технического обслуживания приводов кранов
-const MNT_HOUR          = 4;            # HH:mm [ 0, 1, 2, .., 23 ]
-const MNT_MINUTE        = 7;            # hh:MM [ 0, 1, 2, .., 59 ]
-const MNT_DOW           = 5;            # "пятница"
+const MNT_HOUR          = 1;            # HH:mm [ 0, 1, 2, .., 23 ]
+const MNT_MINUTE        = 5;            # hh:MM [ 0, 1, 2, .., 59 ]
+const MNT_DOW           = 7;            # "воскресенье"
 
 # идентификаторы индикаторов
 const MNT_LED_ID        = 6;            # "выход 4" (синий)
