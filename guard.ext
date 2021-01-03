@@ -27,8 +27,6 @@ const FLASH_GRACE       = $SCENARIO14;  # отсрочка открытия кр
 const PERIOD_15         = 150;          # период 15 сек
 const PERIOD_30         = 300;          # период 30 сек
 const PERIOD_45         = 450;          # период 45 сек
-const PERIOD_60         = 600;          # период 60 сек
-const PERIOD_90         = 900;          # период 90 сек
 
 const PERIOD_GRACE      = PERIOD_30;    # отсрочка открытия кранов
 
