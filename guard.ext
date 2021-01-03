@@ -34,7 +34,7 @@ const PERIOD_GRACE      = PERIOD_30;    # отсрочка открытия кр
 const MUTE_FROM         = 22;           # > 22:00
 const MUTE_TILL         = 9;            # < 09:00
 
-var _under_mnt          = 0;            # флаг, что идёт режим техосблуживания
+var mnt_in_progress     = 0;            # флаг, что идёт режим техосблуживания
 
 proc main () {
     # событие
@@ -76,7 +76,7 @@ proc main () {
         control_mnt_led( $OFF );
 
         # сообщаем, что техобслуживание завершено
-        _under_mnt = 0;
+        mnt_in_progress = 0;
     }
     else if ev == $EVT_TIMER4 {
         # отключаем таймер
@@ -228,7 +228,7 @@ proc valve_maintenance () {
             # сухо - обслуживание
 
             # сообщаем, что идёт техобслуживание
-            _under_mnt = 1;
+            mnt_in_progress = 1;
 
             # мигаем лампой MNT режим обслуживания
             control_mnt_led( FLASH_WORKING );
@@ -378,7 +378,7 @@ fun calc_scenario (sensor_id) {
 
 # отмена обслуживания
 proc reset_maintenance () {
-    if !_under_mnt {
+    if !mnt_in_progress {
         return;
     }
 
@@ -393,7 +393,7 @@ proc reset_maintenance () {
     $set_timer( 1, PERIOD_30 );
 
     # сбрасываем флаг
-    _under_mnt = 0;
+    mnt_in_progress = 0;
 }
 
 # отмена острочки
