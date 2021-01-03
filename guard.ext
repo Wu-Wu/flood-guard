@@ -56,16 +56,19 @@ proc main () {
 
         # установка будильника техобслуживания
         $set_alarm( 1, MNT_HOUR, MNT_MINUTE );
-    } else if ev == $EVT_ALARM1 {
+    }
+    else if ev == $EVT_ALARM1 {
         # обработка события будильника
         valve_maintenance();
-    } else if ev == $EVT_TIMER1 {
+    }
+    else if ev == $EVT_TIMER1 {
         # отключаем таймер
         $reset_timer( 1 );
 
         # выключаем лампу техобслуживания
         control_mnt_led( FLASH_OFF );
-    } else if ev == $EVT_TIMER2 {
+    }
+    else if ev == $EVT_TIMER2 {
         # отключаем таймер
         $reset_timer( 2 );
 
@@ -74,7 +77,8 @@ proc main () {
 
         # запуск таймера для привода крана
         $set_timer( 3, PERIOD_45 );
-    } else if ev == $EVT_TIMER3 {
+    }
+    else if ev == $EVT_TIMER3 {
         # отключаем таймер
         $reset_timer( 3 );
 
@@ -83,7 +87,8 @@ proc main () {
 
         # сообщаем, что техобслуживание завершено
         _under_mnt = 0;
-    } else if ev == $EVT_TIMER4 {
+    }
+    else if ev == $EVT_TIMER4 {
         # отключаем таймер
         $reset_timer( 4 );
 
@@ -95,53 +100,69 @@ proc main () {
             # открываем кран
             toggle_valve_state();
         }
-    } else if ev == $EVT_INPUT1_ACTIVE {
+    }
+    else if ev == $EVT_INPUT1_ACTIVE {
         # датчик в кухне промок
         sensor_wet( FLASH_KITCHEN );
-    } else if ev == $EVT_INPUT1_PASSIVE {
+    }
+    else if ev == $EVT_INPUT1_PASSIVE {
         # датчик в кухне высох - проверяем датчики в ванной/туалете
         sensor_dry( SID_BATHROOM, FLASH_BATHROOM, SID_TOILET, FLASH_TOILET );
-    } else if ev == $EVT_INPUT2_ACTIVE {
+    }
+    else if ev == $EVT_INPUT2_ACTIVE {
         # датчик в туалете промок
         sensor_wet( FLASH_TOILET );
-    } else if ev == $EVT_INPUT2_PASSIVE {
+    }
+    else if ev == $EVT_INPUT2_PASSIVE {
         # датчик в туалете высох - проверяем датчики в ванной/кухне
         sensor_dry( SID_BATHROOM, FLASH_BATHROOM, SID_KITCHEN, FLASH_KITCHEN );
-    } else if ev == $EVT_INPUT3_ACTIVE {
+    }
+    else if ev == $EVT_INPUT3_ACTIVE {
         # датчик в ванной промок
         sensor_wet( FLASH_BATHROOM );
-    } else if ev == $EVT_INPUT3_PASSIVE {
+    }
+    else if ev == $EVT_INPUT3_PASSIVE {
         # датчик в ванной высох - проверяем датчики в туалете/кухне
         sensor_dry( SID_TOILET, FLASH_TOILET, SID_KITCHEN, FLASH_KITCHEN );
-    } else if ev == $EVT_POWER_FAULT {
+    }
+    else if ev == $EVT_POWER_FAULT {
         # падение сетевого питания
         mute_notify();
-    } else if ev == $EVT_POWER_RECOVERY {
+    }
+    else if ev == $EVT_POWER_RECOVERY {
         # восстановление сетевого питания
         mute_notify();
-    } else if ev == $EVT_BATTERY_LOW1 {
+    }
+    else if ev == $EVT_BATTERY_LOW1 {
         # акб разряжена до уровня 1
         mute_notify();
-    } else if ev == $EVT_BATTERY_LOW2 {
+    }
+    else if ev == $EVT_BATTERY_LOW2 {
         # акб разряжена до уровня 2
         # TODO: отключать реле для закрытия приводов кранов
         mute_notify();
-    } else if ev == $EVT_BALANCE_LOW {
+    }
+    else if ev == $EVT_BALANCE_LOW {
         # баланс снизился до минимального значения
         mute_notify();
-    } else if ev == $EVT_DEVICE_ON {
+    }
+    else if ev == $EVT_DEVICE_ON {
         # контроллер включен
         mute_notify();
-    } else if ev == $EVT_DEVICE_RESTART {
+    }
+    else if ev == $EVT_DEVICE_RESTART {
         # контроллер перезапущен
         mute_notify();
-    } else if ev == $EVT_FIRMWARE_UPGRADE {
+    }
+    else if ev == $EVT_FIRMWARE_UPGRADE {
         # прошивка контроллера обновлена
         mute_notify();
-    } else if ev == $EVT_RELAY_CONN_FAILED {
+    }
+    else if ev == $EVT_RELAY_CONN_FAILED {
         # контроллер не смог подключиться к серверу-ретрянслятору
         mute_notify();
-    } else if ev == $EVT_GPRS_CONN_FAILED {
+    }
+    else if ev == $EVT_GPRS_CONN_FAILED {
         # контроллер не смог установить соединение GPRS
         mute_notify();
     }
