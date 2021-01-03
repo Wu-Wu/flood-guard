@@ -328,7 +328,7 @@ proc sensor_dry (sensor_id) {
     var is_wet = 0;
 
     # проверяем остальные группы датчиков (входы)
-    while sensor <= MAX_SENSORS {
+    while sensor < MAX_SENSORS {
         # увеличиваем номер входа
         sensor = sensor + 1;
 
