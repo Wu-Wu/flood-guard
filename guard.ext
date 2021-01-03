@@ -253,7 +253,7 @@ proc valve_maintenance () {
 fun is_any_sensor_active () {
     var sensor_id = 1;
 
-    while sensor_id <= MAX_SENSOSRS {
+    while sensor_id <= MAX_SENSORS {
         # этот вход активен?
         if is_blocked_by(sensor_id) {
             return 1;
