@@ -44,6 +44,10 @@ proc main () {
         # обработка инициализации
         $set_event_mask( $EM_INPUT | $EM_SYSTEM );
 
+        # гасим индикаторы
+        control_mnt_led( $OFF );
+        control_alm_led( $OFF );
+
         # установка будильника техобслуживания
         $set_alarm( 1, MNT_HOUR, MNT_MINUTE );
     }
