@@ -19,6 +19,8 @@ const ALM_LED_ID        = 7;            # "выход 5" (красный)
 
 const VALVE_ID          = 1;            # приводы кранов "реле 1"
 
+const MAX_SENSORS       = 8;            # максимальное количество групп датчиков
+
 # программы мигания индикаторами
 const FLASH_OFF         = $OFF;         # выключение
 const FLASH_WORKING     = $SCENARIO6;   # обслуживание работает     (морзе "W": *--)
@@ -275,14 +277,14 @@ proc sensor_dry (sensor_id1, code1, sensor_id2, code2) {
 }
 
 # вычисление номера сценария для выполнения
-fun calc_scenario (input) {
-    # если передано число большее, чем номер входа
-    if input > 8 {
+fun calc_scenario (sensor_id) {
+    # если передано число большее, чем максимальное количество
+    if sensor_id > MAX_SENSORS {
         # эквивалент $OFF
         return 0;
     }
     # иначе возвращаем эквивалент $SCENARIOX ($SCENARIO1, $SCENARIO2, ..)
-    return 0xFF & ( input + 1 );
+    return 0xFF & ( sensor_id + 1 );
 }
 
 # отмена обслуживания
