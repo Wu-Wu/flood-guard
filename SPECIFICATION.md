@@ -4,7 +4,7 @@
 
 Наименование                                         | Кол-во | Артикул                  | Примечания
 ---------------------------------------------------- | ------ | ------------------------ | ------------------------------------------------------
-Контроллер CCU825-HP-AE-PD h/w 12.02, f/w 02.06+     | 1      | CCU825-H-AE-PD           | [CCU825 DIN](http://www.radsel.ru/products/ccu825-din.html)
+Контроллер CCU825-PLC/D/AE/P h/w 16.00, f/w 02.22    | 1      | CCU825-PLC/D/AE/P        | [CCU825 DIN](https://radsel.ru/products/ccu825.html)
 Аккумуляторная батарея CSB GP 1272                   | 1      | n/a                      |
 Шаровый электропривод Gidrolock Ultimate Bugatti 12V | 2      | [GIDROLOCK ULTIMATE](http://gidrolock.ru/uploads/pages/page4/Pasport_GIDROLOCK_ULTIMATE_.pdf) | Dy = 1/2"
 Проводной датчик протечки воды Gidrolock WSP         | 2      | n/a                      | [датчики протечки](http://gidrolock.ru/production/datchiki-protechki-vody-gidrolock/)
