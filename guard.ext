@@ -18,7 +18,6 @@ const VALVE_ID          = 1;            # приводы кранов "реле 
 const MAX_SENSORS       = 8;            # максимальное количество групп датчиков
 
 # программы мигания индикаторами
-const FLASH_OFF         = $OFF;         # выключение
 const FLASH_WORKING     = $SCENARIO10;  # обслуживание работает     (морзе "W": *--)
 const FLASH_SKIPPING    = $SCENARIO11;  # пропуск обслуживания      (морзе "S": ***)
 const FLASH_WRONG       = $SCENARIO12;  # не тот день недели        (морзе "D": -**)
@@ -57,7 +56,7 @@ proc main () {
         $reset_timer( 1 );
 
         # выключаем лампу техобслуживания
-        control_mnt_led( FLASH_OFF );
+        control_mnt_led( $OFF );
     }
     else if ev == $EVT_TIMER2 {
         # отключаем таймер
@@ -74,7 +73,7 @@ proc main () {
         $reset_timer( 3 );
 
         # выключаем лампу техобслуживания
-        control_mnt_led( FLASH_OFF );
+        control_mnt_led( $OFF );
 
         # сообщаем, что техобслуживание завершено
         _under_mnt = 0;
@@ -84,7 +83,7 @@ proc main () {
         $reset_timer( 4 );
 
         # отключаем лампу тревоги
-        control_alm_led( FLASH_OFF );
+        control_alm_led( $OFF );
 
         # действуем в режиме охрана и кран закрыт?
         if is_valve_closed() {
