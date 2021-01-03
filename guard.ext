@@ -254,26 +254,50 @@ proc sensor_wet (input) {
 }
 
 # датчик протечки высох
-proc sensor_dry (sensor_id1, code1, sensor_id2, code2) {
-    if is_blocked_by( sensor_id1 ) {
-        # датчики зоне1 промокшие
-        # выдаём сигнал на лампу тревоги
-        control_alm_led( code1 );
-    } else if is_blocked_by( sensor_id2 ) {
-        # датчики зоне2 промокшие
-        # выдаём сигнал на лампу тревоги
-        control_alm_led( code2 );
-    } else {
-        # везде сухо
-        # включаем режим отсрочки
-        control_alm_led( FLASH_GRACE );
+proc sensor_dry (sensor_id) {
+    var sensor = 0;
+    var is_wet = 0;
 
-        # реинициализация режима охраны
-        rearm();
+    # проверяем остальные группы датчиков (входы)
+    while sensor <= MAX_SENSORS {
+        # увеличиваем номер входа
+        sensor = sensor + 1;
 
-        # устанавливаем таймер на окрытие кранов
-        $set_timer( 4, PERIOD_GRACE );
+        # текущий вход - это переданный?
+        if sensor == sensor_id {
+            # переходим к следующему, поскольку о нём нам уже известно
+            continue;
+        }
+
+        if is_blocked_by( sensor ) {
+            # этот вход активен (мокрый)
+            is_wet = sensor;
+
+            # датчик из этой группы промокший
+            # выдаём сигнал на лампу тревоги
+            control_alm_led( calc_scenario(sensor) );
+
+            # прекращаем проверку остальных входов
+            break;
+        }
     }
+
+    # обнаружен другой активный вход (мокро)?
+    if is_wet {
+        # выходим
+        return;
+    }
+
+    # везде сухо
+
+    # включаем режим отсрочки
+    control_alm_led( FLASH_GRACE );
+
+    # реинициализация режима охраны
+    rearm();
+
+    # устанавливаем таймер на окрытие кранов
+    $set_timer( 4, PERIOD_GRACE );
 }
 
 # вычисление номера сценария для выполнения
