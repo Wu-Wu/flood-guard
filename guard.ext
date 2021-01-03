@@ -223,7 +223,7 @@ proc valve_maintenance () {
     # проверяем время и день недели
     if $get_day_of_week( ts ) == MNT_DOW {
         # проверка состояния датчиков протечки и режима
-        if is_sensors_active() {
+        if is_any_sensor_active() {
             # течёт - пропускаем
             # мигаем лампой MNT режим пропуска
             control_mnt_led( FLASH_SKIPPING );
@@ -255,8 +255,20 @@ proc valve_maintenance () {
 }
 
 # имеется ли любой промокший датчик?
-fun is_sensors_active () {
-    return is_blocked_by( SID_KITCHEN ) || is_blocked_by( SID_TOILET ) || is_blocked_by( SID_BATHROOM );
+fun is_any_sensor_active () {
+    var sensor_id = 1;
+
+    while sensor_id <= MAX_SENSOSRS {
+        # этот вход активен?
+        if is_blocked_by(sensor_id) {
+            return 1;
+        }
+        # переходим к следующему
+        sensor_id = sensor_id + 1;
+    }
+
+    # ничего активного не нашлось
+    return 0;
 }
 
 # реинициализация режима охраны
