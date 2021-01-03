@@ -236,9 +236,9 @@ proc toggle_valve_state () {
 }
 
 # датчик протечки промок
-proc sensor_wet (input) {
+proc sensor_wet (sensor_id) {
     # выдаём сигнал на лампу тревоги
-    control_alm_led( calc_scenario(input) );
+    control_alm_led( calc_scenario(sensor_id) );
 
     # сброс режима отсрочки
     reset_grace();
