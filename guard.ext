@@ -274,6 +274,17 @@ proc sensor_dry (sensor_id1, code1, sensor_id2, code2) {
     }
 }
 
+# вычисление номера сценария для выполнения
+fun calc_scenario (input) {
+    # если передано число большее, чем номер входа
+    if input > 8 {
+        # эквивалент $OFF
+        return 0;
+    }
+    # иначе возвращаем эквивалент $SCENARIOX ($SCENARIO1, $SCENARIO2, ..)
+    return 0xFF & ( input + 1 );
+}
+
 # отмена обслуживания
 proc reset_maintenance () {
     if !_under_mnt {
