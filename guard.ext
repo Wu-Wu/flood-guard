@@ -223,7 +223,8 @@ proc valve_maintenance () {
 
             # устанавливаем таймер
             $set_timer( 1, PERIOD_30 );
-        } else {
+        }
+        else {
             # сухо - обслуживание
 
             # сообщаем, что идёт техобслуживание
@@ -238,7 +239,8 @@ proc valve_maintenance () {
             # запуск таймера для привода крана
             $set_timer( 2, PERIOD_45 );
         }
-    } else {
+    }
+    else {
         # мигаем лампой MNT режим неверный день недели
         control_mnt_led( FLASH_WRONG );
 
