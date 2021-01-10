@@ -16,7 +16,7 @@ const ALM_LED_ID        = 7;            # "выход 5" (красный) - тр
 const VALVE_ID          = 1;            # приводы кранов "реле 1"
 
 const FIRST_SENSOR      = 1;            # идентификатор первого датчика
-const MAX_SENSORS       = 8;            # максимальное количество групп датчиков
+const TOTAL_SENSORS     = 8;            # максимальное количество групп датчиков
 
 # программы мигания индикаторами
 const FLASH_WORKING     = $SCENARIO10;  # обслуживание работает     (морзе "W": *--)
@@ -297,7 +297,7 @@ proc valve_maintenance () {
 # имеется ли любой промокший датчик?
 fun is_any_sensor_active () {
     var sensor_id = FIRST_SENSOR;
-    var until_id  = sensor_id + MAX_SENSORS - 1;
+    var until_id  = sensor_id + TOTAL_SENSORS - 1;
 
     while sensor_id <= until_id {
         # этот вход активен?
@@ -315,7 +315,7 @@ fun is_any_sensor_active () {
 # стоит ли обрабатывать событие данного входа?
 fun is_manageable_input (sensor_id) {
     var left_id  = FIRST_SENSOR;
-    var right_id = left_id + MAX_SENSORS;
+    var right_id = left_id + TOTAL_SENSORS;
 
     # идентификатор входа меньше левой границы
     if sensor_id < left_id {
@@ -386,7 +386,7 @@ proc sensor_wet (sensor_id) {
 # датчик протечки высох
 proc sensor_dry (sensor_id) {
     var sensor = FIRST_SENSOR - 1;
-    var limit  = sensor + MAX_SENSORS;
+    var limit  = sensor + TOTAL_SENSORS;
     var is_wet = 0;
 
     # проверяем остальные группы датчиков (входы)
@@ -434,7 +434,7 @@ proc sensor_dry (sensor_id) {
 # вычисление номера сценария для выполнения
 fun calc_scenario (sensor_id) {
     var left_id  = FIRST_SENSOR;
-    var right_id = left_id + MAX_SENSORS - 1;
+    var right_id = left_id + TOTAL_SENSORS - 1;
 
     # если передано число большее, чем максимальное количество
     if sensor_id > right_id {
