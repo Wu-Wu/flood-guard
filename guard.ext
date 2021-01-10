@@ -297,8 +297,9 @@ proc valve_maintenance () {
 # имеется ли любой промокший датчик?
 fun is_any_sensor_active () {
     var sensor_id = FIRST_SENSOR;
+    var until_id  = sensor_id + MAX_SENSORS - 1;
 
-    while sensor_id <= MAX_SENSORS {
+    while sensor_id <= until_id {
         # этот вход активен?
         if is_blocked_by(sensor_id) {
             return 1;
@@ -385,10 +386,11 @@ proc sensor_wet (sensor_id) {
 # датчик протечки высох
 proc sensor_dry (sensor_id) {
     var sensor = FIRST_SENSOR - 1;
+    var limit  = sensor + MAX_SENSORS;
     var is_wet = 0;
 
     # проверяем остальные группы датчиков (входы)
-    while sensor < MAX_SENSORS {
+    while sensor < limit {
         # увеличиваем номер входа
         sensor = sensor + 1;
 
@@ -431,14 +433,17 @@ proc sensor_dry (sensor_id) {
 
 # вычисление номера сценария для выполнения
 fun calc_scenario (sensor_id) {
+    var left_id  = FIRST_SENSOR;
+    var right_id = left_id + MAX_SENSORS - 1;
+
     # если передано число большее, чем максимальное количество
-    if sensor_id > MAX_SENSORS {
+    if sensor_id > right_id {
         # эквивалент $OFF
         return 0;
     }
 
     # если передано число меньшее, чем первый датчик
-    if sensor_id < FIRST_SENSOR {
+    if sensor_id < left_id {
         # эквивалент $OFF
         return 0;
     }
