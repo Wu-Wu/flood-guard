@@ -200,7 +200,7 @@ TODO
 
 Код Морзе цифры **4** (четыре)
 
-![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dash](i/dot_red.png)![dash](i/dash_red.png)
+![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dash](i/dash_red.png)
 
 ##### Столбцы тактов
 
@@ -222,7 +222,7 @@ TODO
 
 Код Морзе цифры **5** (пять)
 
-![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dash](i/dot_red.png)![dash](i/dot_red.png)
+![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)
 
 ##### Столбцы тактов
 
@@ -244,7 +244,7 @@ TODO
 
 Код Морзе цифры **6** (шесть)
 
-![dot](i/dash_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dash](i/dot_red.png)![dash](i/dot_red.png)
+![dash](i/dash_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)
 
 ##### Столбцы тактов
 
@@ -266,7 +266,7 @@ TODO
 
 Код Морзе цифры **7** (семь)
 
-![dot](i/dash_red.png)![dot](i/dash_red.png)![dot](i/dot_red.png)![dash](i/dot_red.png)![dash](i/dot_red.png)
+![dash](i/dash_red.png)![dash](i/dash_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)
 
 ##### Столбцы тактов
 
@@ -288,7 +288,7 @@ TODO
 
 Код Морзе цифры **8** (восемь)
 
-![dot](i/dash_red.png)![dot](i/dash_red.png)![dot](i/dash_red.png)![dash](i/dot_red.png)![dash](i/dot_red.png)
+![dash](i/dash_red.png)![dash](i/dash_red.png)![dash](i/dash_red.png)![dot](i/dot_red.png)![dot](i/dot_red.png)
 
 ##### Столбцы тактов
 
@@ -310,7 +310,7 @@ TODO
 
 Код Морзе цифры **9** (девять)
 
-![dot](i/dash_red.png)![dash](i/dash_red.png)![dash](i/dash_red.png)![dash](i/dash_red.png)![dot](i/dot_red.png)
+![dash](i/dash_red.png)![dash](i/dash_red.png)![dash](i/dash_red.png)![dash](i/dash_red.png)![dot](i/dot_red.png)
 
 ##### Столбцы тактов
 
