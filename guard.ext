@@ -96,69 +96,109 @@ proc main () {
             toggle_valve_state();
         }
     }
-    else if ev == $EVT_INPUT1_ACTIVE {
-        # вход 1 активен (датчик промок)
-        sensor_wet(1);
+    # события входа 1 (активное/пассивное)
+    else if ( ev == $EVT_INPUT1_ACTIVE ) || ( ev == $EVT_INPUT1_PASSIVE ) {
+        if is_manageable_input(1) {
+            if ev == $EVT_INPUT1_ACTIVE {
+                # вход 1 активен (датчик промок)
+                sensor_wet(1);
+            }
+            else {
+                # вход 1 пассивен (датчик высох)
+                sensor_dry(1);
+            }
+        }
     }
-    else if ev == $EVT_INPUT1_PASSIVE {
-        # вход 1 пассивен (датчик высох)
-        sensor_dry(1);
+    # события входа 2 (активное/пассивное)
+    else if ( ev == $EVT_INPUT2_ACTIVE ) || ( ev == $EVT_INPUT2_PASSIVE ) {
+        if is_manageable_input(2) {
+            if ev == $EVT_INPUT2_ACTIVE {
+                # вход 2 активен (датчик промок)
+                sensor_wet(2);
+            }
+            else {
+                # вход 2 пассивен (датчик высох)
+                sensor_dry(2);
+            }
+        }
     }
-    else if ev == $EVT_INPUT2_ACTIVE {
-        # вход 2 активен (датчик промок)
-        sensor_wet(2);
+    # события входа 3 (активное/пассивное)
+    else if ( ev == $EVT_INPUT3_ACTIVE ) || ( ev == $EVT_INPUT3_PASSIVE ) {
+        if is_manageable_input(3) {
+            if ev == $EVT_INPUT3_ACTIVE {
+                # вход 3 активен (датчик промок)
+                sensor_wet(3);
+            }
+            else {
+                # вход 3 пассивен (датчик высох)
+                sensor_dry(3);
+            }
+        }
     }
-    else if ev == $EVT_INPUT2_PASSIVE {
-        # вход 2 пассивен (датчик высох)
-        sensor_dry(2);
+    # события входа 4 (активное/пассивное)
+    else if ( ev == $EVT_INPUT4_ACTIVE ) || ( ev == $EVT_INPUT4_PASSIVE ) {
+        if is_manageable_input(4) {
+            if ev == $EVT_INPUT4_ACTIVE {
+                # вход 4 активен (датчик промок)
+                sensor_wet(4);
+            }
+            else {
+                # вход 4 пассивен (датчик высох)
+                sensor_dry(4);
+            }
+        }
     }
-    else if ev == $EVT_INPUT3_ACTIVE {
-        # вход 3 активен (датчик промок)
-        sensor_wet(3);
+    # события входа 5 (активное/пассивное)
+    else if ( ev == $EVT_INPUT5_ACTIVE ) || ( ev == $EVT_INPUT5_PASSIVE ) {
+        if is_manageable_input(5) {
+            if ev == $EVT_INPUT5_ACTIVE {
+                # вход 5 активен (датчик промок)
+                sensor_wet(5);
+            }
+            else {
+                # вход 5 пассивен (датчик высох)
+                sensor_dry(5);
+            }
+        }
     }
-    else if ev == $EVT_INPUT3_PASSIVE {
-        # вход 3 пассивен (датчик высох)
-        sensor_dry(3);
+    # события входа 6 (активное/пассивное)
+    else if ( ev == $EVT_INPUT6_ACTIVE ) || ( ev == $EVT_INPUT6_PASSIVE ) {
+        if is_manageable_input(6) {
+            if ev == $EVT_INPUT6_ACTIVE {
+                # вход 6 активен (датчик промок)
+                sensor_wet(6);
+            }
+            else {
+                # вход 6 пассивен (датчик высох)
+                sensor_dry(6);
+            }
+        }
     }
-    else if ev == $EVT_INPUT4_ACTIVE {
-        # вход 4 активен (датчик промок)
-        sensor_wet(4);
+    # события входа 7 (активное/пассивное)
+    else if ( ev == $EVT_INPUT7_ACTIVE ) || ( ev == $EVT_INPUT7_PASSIVE ) {
+        if is_manageable_input(7) {
+            if ev == $EVT_INPUT7_ACTIVE {
+                # вход 7 активен (датчик промок)
+                sensor_wet(7);
+            }
+            else {
+                # вход 7 пассивен (датчик высох)
+                sensor_dry(7);
+            }
+        }
     }
-    else if ev == $EVT_INPUT4_PASSIVE {
-        # вход 4 пассивен (датчик высох)
-        sensor_dry(4);
-    }
-    else if ev == $EVT_INPUT5_ACTIVE {
-        # вход 5 активен (датчик промок)
-        sensor_wet(5);
-    }
-    else if ev == $EVT_INPUT5_PASSIVE {
-        # вход 5 пассивен (датчик высох)
-        sensor_dry(5);
-    }
-    else if ev == $EVT_INPUT6_ACTIVE {
-        # вход 6 активен (датчик промок)
-        sensor_wet(6);
-    }
-    else if ev == $EVT_INPUT6_PASSIVE {
-        # вход 6 пассивен (датчик высох)
-        sensor_dry(6);
-    }
-    else if ev == $EVT_INPUT7_ACTIVE {
-        # вход 7 активен (датчик промок)
-        sensor_wet(7);
-    }
-    else if ev == $EVT_INPUT7_PASSIVE {
-        # вход 7 пассивен (датчик высох)
-        sensor_dry(7);
-    }
-    else if ev == $EVT_INPUT8_ACTIVE {
-        # вход 8 активен (датчик промок)
-        sensor_wet(8);
-    }
-    else if ev == $EVT_INPUT8_PASSIVE {
-        # вход 8 пассивен (датчик высох)
-        sensor_dry(8);
+    # события входа 8 (активное/пассивное)
+    else if ( ev == $EVT_INPUT8_ACTIVE ) || ( ev == $EVT_INPUT8_PASSIVE ) {
+        if is_manageable_input(8) {
+            if ev == $EVT_INPUT8_ACTIVE {
+                # вход 8 активен (датчик промок)
+                sensor_wet(8);
+            }
+            else {
+                # вход 8 пассивен (датчик высох)
+                sensor_dry(8);
+            }
+        }
     }
     else if ev == $EVT_POWER_FAULT {
         # падение сетевого питания
@@ -269,6 +309,25 @@ fun is_any_sensor_active () {
 
     # ничего активного не нашлось
     return 0;
+}
+
+# стоит ли обрабатывать событие данного входа?
+fun is_manageable_input (sensor_id) {
+    var left_id  = FIRST_SENSOR;
+    var right_id = left_id + MAX_SENSORS;
+
+    # идентификатор входа меньше левой границы
+    if sensor_id < left_id {
+        return 0;
+    }
+
+    # идентификатор входа больше правой границы
+    if sensor_id > right_id {
+        return 0;
+    }
+
+    # идентификатор в диапазоне контролируемых входов
+    return 1;
 }
 
 # реинициализация режима охраны
